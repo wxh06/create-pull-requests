@@ -1,10 +1,11 @@
+import kotlinx.coroutines.flow.Flow
 import schema.FileCommit
 import schema.GitReference
 import schema.PullRequest
 import schema.Repository
 
 interface GithubApi {
-    suspend fun listRepositories(): List<Repository>
+    fun listRepositories(): Flow<Repository>
 
     suspend fun getReference(owner: String, repo: String, ref: String): GitReference
 

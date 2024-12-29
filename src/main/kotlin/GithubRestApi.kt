@@ -8,6 +8,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonNamingStrategy
@@ -52,7 +53,17 @@ class GithubRestApi(token: String? = null, baseUrl: String = "https://api.github
      * List repositories for the authenticated user
      * @see <a href="https://docs.github.com/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-the-authenticated-user">REST API endpoints for repositories - GitHub Docs</a>
      */
-    override suspend fun listRepositories(): List<Repository> = client.get("/user/repos").body()
+    override fun listRepositories() = flow {
+        // See https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api?apiVersion=2022-11-28
+        var url: String? = "/user/repos"
+        do {
+            val response = client.get(url!!)
+            response.body<List<Repository>>().forEach { emit(it) }
+            url = response.headers["Link"]?.let { linkHeader ->
+                Regex("(?<=<)(\\S*)(?=>; rel=\"Next\")", RegexOption.IGNORE_CASE).find(linkHeader)?.value
+            }
+        } while (url != null)
+    }
 
     /**
      * Get a reference
