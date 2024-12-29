@@ -56,6 +56,9 @@ class GithubRestApi(token: String? = null, baseUrl: String = "https://api.github
 
     /**
      * Get a reference
+     * @param owner The account owner of the repository. The name is not case sensitive.
+     * @param repo The name of the repository without the `.git` extension. The name is not case sensitive.
+     * @param ref The Git reference. For more information, see "Git References" in the Git documentation.
      * @see <a href="https://docs.github.com/rest/git/refs?apiVersion=2022-11-28#get-a-reference">REST API endpoints for Git references - GitHub Docs</a>
      */
     override suspend fun getReference(owner: String, repo: String, ref: String): GitReference =
@@ -63,6 +66,10 @@ class GithubRestApi(token: String? = null, baseUrl: String = "https://api.github
 
     /**
      * Create a reference
+     * @param owner The account owner of the repository. The name is not case sensitive.
+     * @param repo The name of the repository without the `.git` extension. The name is not case sensitive.
+     * @param ref The name of the fully qualified reference (ie: `refs/heads/master`). If it doesn't start with 'refs' and have at least two slashes, it will be rejected.
+     * @param sha The SHA1 value for this reference.
      * @see <a href="https://docs.github.com/rest/git/refs?apiVersion=2022-11-28#create-a-reference">REST API endpoints for Git references - GitHub Docs</a>
      */
     override suspend fun createReference(owner: String, repo: String, ref: String, sha: String): GitReference =
@@ -72,6 +79,12 @@ class GithubRestApi(token: String? = null, baseUrl: String = "https://api.github
 
     /**
      * Create or update file contents
+     * @param owner The account owner of the repository. The name is not case sensitive.
+     * @param repo The name of the repository without the `.git` extension. The name is not case sensitive.
+     * @param path path parameter
+     * @param message The commit message.
+     * @param content The new file content, using Base64 encoding.
+     * @param branch The branch name. Default: the repository’s default branch.
      * @see <a href="https://docs.github.com/rest/repos/contents?apiVersion=2022-11-28#create-or-update-file-contents">REST API endpoints for repository contents - GitHub Docs</a>
      */
     override suspend fun createFile(
@@ -82,6 +95,12 @@ class GithubRestApi(token: String? = null, baseUrl: String = "https://api.github
 
     /**
      * Create a pull request
+     * @param owner The account owner of the repository. The name is not case sensitive.
+     * @param repo The name of the repository without the `.git` extension. The name is not case sensitive.
+     * @param title The title of the new pull request.
+     * @param head The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`.
+     * @param base The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.
+     * @param body The contents of the pull request.
      * @see <a href="https://docs.github.com/rest/pulls/pulls?apiVersion=2022-11-28#create-a-pull-request">REST API endpoints for pull requests - GitHub Docs</a>
      */
     override suspend fun createPullRequest(

@@ -3,6 +3,7 @@ package schema
 import kotlinx.serialization.Serializable
 
 /**
+ * File Commit
  * @see <a href="https://docs.github.com/rest/repos/contents?apiVersion=2022-11-28">REST API endpoints for repository contents - GitHub Docs</a>
  */
 @Serializable
