@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.21"
     kotlin("plugin.serialization") version "2.0.21"
+    application
 }
 
 group = "im.wxh"
@@ -19,6 +20,10 @@ tasks.test {
 }
 kotlin {
     jvmToolchain(17)
+}
+
+application {
+    mainClass = "MainKt"
 }
 
 val ktor_version: String by project
