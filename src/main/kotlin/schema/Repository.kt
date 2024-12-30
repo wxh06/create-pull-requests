@@ -14,6 +14,7 @@ data class Repository(
     /** The name of the repository. */
     val name: String,
     val fullName: String,
+    val owner: SimpleUser,
     /** The default branch of the repository. */
     val defaultBranch: String,
 )
