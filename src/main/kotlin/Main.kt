@@ -21,7 +21,11 @@ suspend fun main() {
 
     val sha = githubApi.getReference(owner, repo, "heads/${repository.defaultBranch}").obj.sha
     githubApi.createReference(owner, repo, "refs/heads/${config.branch}", sha)
-    githubApi.createFile(owner, repo, "Hello.txt", "Create Hello.txt", "Hello world".encodeBase64(), config.branch)
-    githubApi.createPullRequest(owner, repo, "Add Hello.txt", config.branch, repository.defaultBranch, null)
+    githubApi.createFile(
+        owner, repo, config.filePath, config.commitMessage, config.fileContent.encodeBase64(), config.branch
+    )
+    githubApi.createPullRequest(
+        owner, repo, config.pullRequestTitle, config.branch, repository.defaultBranch, config.pullRequestBody
+    )
     githubApi.close()
 }
