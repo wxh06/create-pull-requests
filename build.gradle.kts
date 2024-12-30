@@ -32,4 +32,5 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("com.sksamuel.hoplite:hoplite-core:2.9.0")
+    implementation("com.varabyte.kotter:kotter-jvm:1.2.1")
 }
